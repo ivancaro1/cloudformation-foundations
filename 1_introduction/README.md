@@ -1,6 +1,6 @@
 # Introduction
 
-Here we are goint to create a simple EC2 instance, and we are going to add security group to it
+Here we are going to create a simple EC2 instance, and we are going to add a security group to it
 
 <img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/77f42400-196d-48e4-9ef3-79983ebc1378" alt="Image Description" width="200"/>
 
