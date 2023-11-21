@@ -1,33 +1,46 @@
-# Introduction
+# Hands-On: Creating a S3 Bucket
 
-Here we are goint to create a simple EC2 instance, and we are going to add security group to it
+Here we are going to create an S3 bucket. It's important to mention that creating a S3 bucket is completely free.
+S3 is the AWS service for storing static files in a replicated and globally available way.
 
-<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/77f42400-196d-48e4-9ef3-79983ebc1378" alt="Image Description" width="200"/>
+<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/c265e463-1c11-477a-9439-94a9a8afa053"
+ alt="Image Description" width="200"/>
 
 ## Resources Section
 
-The template defines a resource named "MyInstance."
+The template defines two resources: "MyS3Bucket" and "SomeS3AccessPolicy."
 
-## AWS::EC2::Instance Type
+## AWS::S3::Bucket Type
 
-Specifies that the resource is an EC2 instance, which is a virtual server in AWS.
+- **MyS3Bucket:**
+  - Creates an S3 bucket with configurable public access settings.
+  
+## AWS::S3::BucketPolicy Type
+
+- **SomeS3AccessPolicy:**
+  - Establishes a bucket policy granting public read access to the contents of "MyS3Bucket."
 
 ## Properties
 
-Describes the configuration of the EC2 instance.
+### Public Access Settings (MyS3Bucket):
 
-### AvailabilityZone
+- **BlockPublicAcls:** Allows or blocks ACLs that are public.
+- **BlockPublicPolicy:** Allows or blocks public policies for the bucket.
+- **IgnorePublicAcls:** Specifies whether to ignore public ACLs.
+- **RestrictPublicBuckets:** Specifies whether to restrict access to buckets with public policies.
 
-Sets the availability zone for the EC2 instance to "us-east-1a." An availability zone is a data center within an AWS region.
+### Bucket Policy (SomeS3AccessPolicy):
 
-### ImageId
+- Grants public read access to the contents of the bucket.
+- Uses the `Fn::Sub` function to dynamically substitute the bucket name in the policy.
 
-Specifies the Amazon Machine Image (AMI) ID, which is a pre-configured virtual machine image. In this case, it uses the AMI with ID "ami-0742b4e673072066f."
+## Usage Instructions
 
-### InstanceType
+1. Copy the CloudFormation template above.
+2. Open the AWS Management Console.
+3. Navigate to the CloudFormation service.
+4. Create a new stack and paste the template.
+5. Follow the wizard to customize and deploy your resources.
 
-Sets the type of EC2 instance to "t2.micro." This determines the computing capacity and performance characteristics of the instance.
+Feel free to modify and extend the template according to your specific requirements. For more information, refer to the [AWS CloudFormation documentation](https://docs.aws.amazon.com/cloudformation/).
 
-## Summary
-
-In summary, this CloudFormation template is a basic blueprint for creating a small t2.micro EC2 instance in the specified AWS region (us-east-1a) using a specific AMI. You can customize the template to include additional configurations and resources based on your needs.
