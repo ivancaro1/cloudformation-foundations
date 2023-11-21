@@ -10,6 +10,10 @@ Defines a parameter to specify the environment name.
 
 ## Mappings
 
+Mappings are fixed variables within your CloudFormation template.
+They are very andy to differentiate between different environments (dev vs prod), regions (AWS regions), AMI types, etc.
+All the values are hardcoded within the template.
+
 Maps AWS region and architecture to Amazon Machine Images (AMIs) and environment names to instance types.
 
 - **AWSRegionArch2AMI:**
