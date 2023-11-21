@@ -32,3 +32,9 @@ CloudFormation is a declarative way of outlining your AWS Infrastructure, for an
    git clone https://github.com/your-username/cloudformation-foundations.git
 
 2. **VSCode Setup:** Install cfn-lint extension https://github.com/aws-cloudformation/cfn-lint
+
+3. **YAML:** YAML and JSON are the languages you can use for CloudFormation. However, JSON is horrible for CF, YAML is great in so many ways.
+
+## References
+
+If you are interested and want more detail, please visit this web page: https://www.udemy.com/course/aws-cloudformation-master-class/
