@@ -1,33 +1,59 @@
-# Introduction
+# Rules
 
-Here we are goint to create a simple EC2 instance, and we are going to add security group to it
+Rules used to perform parameter validations based on the values of other parameters (cross-parameter validation)
 
-<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/77f42400-196d-48e4-9ef3-79983ebc1378" alt="Image Description" width="200"/>
+<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/2f87b5f5-5bb0-402e-87c1-c4ba13ce6c0a"
+ alt="Image Description" width="500"/>
 
-## Resources Section
+ ## How to define a Rule?
 
-The template defines a resource named "MyInstance."
+ Each Rule consists of:
 
-## AWS::EC2::Instance Type
+ - Rule Condition (optional): determines when a rule takes effect/assertions applied (only one per rule)
+ - Assertions: describes what values are allowed for a particular parameter.
 
-Specifies that the resource is an EC2 instance, which is a virtual server in AWS.
+## Parameters
 
-## Properties
+Defines parameters for the EC2 instance type, environment, and Amazon Machine Image (AMI) ID.
 
-Describes the configuration of the EC2 instance.
+- **InstanceType:**
+  - **Type:** String
+  - **Default:** t2.small
+  - **AllowedValues:** [t2.nano, t2.micro, t2.small]
 
-### AvailabilityZone
+- **Environment:**
+  - **Type:** String
+  - **Default:** dev
+  - **AllowedValues:** [dev, prod]
 
-Sets the availability zone for the EC2 instance to "us-east-1a." An availability zone is a data center within an AWS region.
+- **ImageId:**
+  - **Type:** AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+  - **Default:** /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-### ImageId
+## Rules
 
-Specifies the Amazon Machine Image (AMI) ID, which is a pre-configured virtual machine image. In this case, it uses the AMI with ID "ami-0742b4e673072066f."
+Defines rules for validating instance type based on the specified environment.
 
-### InstanceType
+- **ProdInstanceType:**
+  - **RuleCondition:** Checks if the environment is prod.
+  - **Assertions:**
+    - Checks if the instance type is t2.small for a production environment.
 
-Sets the type of EC2 instance to "t2.micro." This determines the computing capacity and performance characteristics of the instance.
+- **DevInstanceType:**
+  - **RuleCondition:** Checks if the environment is dev.
+  - **Assertions:**
+    - Checks if the instance type is t2.nano or t2.micro for a development environment.
+
+## Resources
+
+Defines an EC2 instance resource with specified properties.
+
+- **MyEC2Instance:**
+  - **Type:** AWS::EC2::Instance
+  - **Properties:**
+    - **InstanceType:** References the InstanceType parameter.
+    - **ImageId:** References the ImageId parameter.
 
 ## Summary
 
-In summary, this CloudFormation template is a basic blueprint for creating a small t2.micro EC2 instance in the specified AWS region (us-east-1a) using a specific AMI. You can customize the template to include additional configurations and resources based on your needs.
+This CloudFormation template creates an EC2 instance with validation rules based on the specified environment. Rules ensure that the instance type aligns with the environment type. Customize the parameters and rules as needed for your specific deployment.
