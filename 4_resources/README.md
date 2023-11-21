@@ -1,33 +1,76 @@
-# Introduction
+## Resources
 
-Here we are goint to create a simple EC2 instance, and we are going to add security group to it
+Resources are the core of your CloudFormation template.
+They represent the different AWS Components that will be created and configured.
+Resources are declared and can reference each other.
 
-<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/77f42400-196d-48e4-9ef3-79983ebc1378" alt="Image Description" width="200"/>
+### Optional attributes for Resources
+ - DependsOn: Very useful to draw a dependency between two resources.
+ - DeletionPolicy: Protect resources from being deleted even if the CloudFormation stack is deleted.
+ - UpdateReplacePolicy: Protect resources from being replaced during a CloudFormation update.
 
-## Resources Section
+## DependsOn
 
-The template defines a resource named "MyInstance."
+### Parameters
 
-## AWS::EC2::Instance Type
+Defines a parameter for the Amazon Machine Image (AMI) ID, with a default value pointing to the latest Amazon Linux AMI.
 
-Specifies that the resource is an EC2 instance, which is a virtual server in AWS.
+- **ImageId:**
+  - **Type:** AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+  - **Default:** /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-## Properties
+### Resources
 
-Describes the configuration of the EC2 instance.
+Defines AWS resources, including an S3 bucket and an EC2 instance, with a dependency relationship.
 
-### AvailabilityZone
+- **MyS3Bucket:**
+  - **Type:** AWS::S3::Bucket
 
-Sets the availability zone for the EC2 instance to "us-east-1a." An availability zone is a data center within an AWS region.
+- **MyInstance:**
+  - **Type:** AWS::EC2::Instance
+  - **Properties:**
+    - **ImageId:** References the ImageId parameter.
+    - **InstanceType:** t2.micro
+  - **DependsOn:** Specifies that the EC2 instance creation depends on the creation of the MyS3Bucket.
 
-### ImageId
+### Summary
 
-Specifies the Amazon Machine Image (AMI) ID, which is a pre-configured virtual machine image. In this case, it uses the AMI with ID "ami-0742b4e673072066f."
+This CloudFormation template creates an S3 bucket and an EC2 instance. The instance's AMI ID is parameterized, and its creation depends on the successful creation of the S3 bucket. Adjust the parameters and resources as needed for your specific deployment.
 
-### InstanceType
+## DeletionPolicy
 
-Sets the type of EC2 instance to "t2.micro." This determines the computing capacity and performance characteristics of the instance.
+### Resources
 
-## Summary
+Defines an S3 bucket with a specified deletion policy.
 
-In summary, this CloudFormation template is a basic blueprint for creating a small t2.micro EC2 instance in the specified AWS region (us-east-1a) using a specific AMI. You can customize the template to include additional configurations and resources based on your needs.
+- **MyS3Bucket:**
+  - **Type:** AWS::S3::Bucket
+  - **DeletionPolicy:** Retain
+
+### Summary
+
+This CloudFormation template creates an S3 bucket with a retention policy set to "Retain." The retention policy ensures that the S3 bucket and its contents are not deleted when the CloudFormation stack is deleted. Customize the template as needed for your specific use case.
+
+## UpdateReplacePolicy
+
+### Parameters
+
+Defines a parameter for the S3 bucket name.
+
+- **BucketName:**
+  - **Type:** String
+
+### Resources
+
+Defines an S3 bucket with specified properties, a deletion policy, and an update replace policy.
+
+- **MyS3Bucket:**
+  - **Type:** AWS::S3::Bucket
+  - **Properties:**
+    - **BucketName:** References the BucketName parameter.
+  - **DeletionPolicy:** Retain
+  - **UpdateReplacePolicy:** Retain
+
+### Summary
+
+This CloudFormation template creates an S3 bucket with a retention policy set to "Retain" for both deletion and update operations. The bucket name is parameterized, allowing customization. Ensure to customize the template further based on your specific requirements.
