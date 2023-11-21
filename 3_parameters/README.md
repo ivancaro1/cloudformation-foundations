@@ -1,33 +1,43 @@
-# Introduction
+# Parameters
 
-Here we are goint to create a simple EC2 instance, and we are going to add security group to it
+Parameters are a way to provide inputs to your AWS CloudFormation template.
+They are important to know about if:
+  -  You want to reuse your templates across the company.
+  -  Some inputs can not be determined ahead of time.
 
-<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/77f42400-196d-48e4-9ef3-79983ebc1378" alt="Image Description" width="200"/>
+<img src="https://github.com/ivancaro1/cloudformation-foundations/assets/74940632/a2ab2ef9-3d7f-468c-9156-62b3325de13d"
+ alt="Image Description" width="300"/>
 
-## Resources Section
+## Parameters
 
-The template defines a resource named "MyInstance."
+Defines parameters that allow customization when deploying the CloudFormation stack.
 
-## AWS::EC2::Instance Type
+- **SecurityGroupDescription:** Describes the purpose of the security group.
+- **SecurityGroupPort:** Specifies a port range for the security group.
+- **InstanceType:** Sets the type of EC2 instance with default and allowed values.
+- **DBPwd:** Sets the password for the database admin account.
+- **KeyName:** Specifies an existing EC2 KeyPair for SSH access to instances.
+- **SecurityGroupIngressCIDR:** Defines the IP address range for EC2 instance communication.
+- **MyVPC:** Specifies the VPC in which the resources will operate.
+- **MySubnetIDs:** Provides a list of Subnet IDs.
+- **DbSubnetIpBlocks:** Defines a comma-delimited list of CIDR blocks.
 
-Specifies that the resource is an EC2 instance, which is a virtual server in AWS.
+## Resources
 
-## Properties
+Defines the AWS resources that will be created and configured by the CloudFormation stack.
 
-Describes the configuration of the EC2 instance.
+### MyEC2Instance
 
-### AvailabilityZone
+- **Type:** AWS::EC2::Instance
+- **Properties:** Configures an EC2 instance.
 
-Sets the availability zone for the EC2 instance to "us-east-1a." An availability zone is a data center within an AWS region.
+### MySecurityGroup
 
-### ImageId
+- **Type:** AWS::EC2::SecurityGroup
+- **Properties:** Configures a security group for EC2 instances.
 
-Specifies the Amazon Machine Image (AMI) ID, which is a pre-configured virtual machine image. In this case, it uses the AMI with ID "ami-0742b4e673072066f."
+### DbSubnet1, DbSubnet2, DbSubnet3
 
-### InstanceType
+- **Type:** AWS::EC2::Subnet
+- **Properties:** Configures three subnets for the VPC.
 
-Sets the type of EC2 instance to "t2.micro." This determines the computing capacity and performance characteristics of the instance.
-
-## Summary
-
-In summary, this CloudFormation template is a basic blueprint for creating a small t2.micro EC2 instance in the specified AWS region (us-east-1a) using a specific AMI. You can customize the template to include additional configurations and resources based on your needs.
